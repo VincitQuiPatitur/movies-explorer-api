@@ -1,5 +1,7 @@
 const Movie = require('../models/movie');
-
+const BadRequestError = require('../errors/BadRequestError'); // 400
+const ForbiddenError = require('../errors/ForbiddenError'); // 403
+const NotFoundError = require('../errors/NotFoundError'); // 404
 
 module.exports.getSavedMovies = (req, res, next) => {
   Movie.find({})
@@ -20,7 +22,7 @@ module.exports.createMovie = (req, res, next) => {
     nameRU,
     nameEN,
     thumbnail,
-    movieId
+    movieId,
   } = req.body;
 
   Movie.create({
@@ -39,7 +41,11 @@ module.exports.createMovie = (req, res, next) => {
   })
     .then((movie) => res.send(movie))
     .catch((err) => {
-      console.log(err);
+      if (err.name === 'ValidationError') {
+        next(new BadRequestError('Incorrect data transmitted during card creation'));
+        return;
+      }
+      next(err);
     });
 };
 
@@ -50,9 +56,11 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
+        next(new NotFoundError('Card with specified id not found'));
         return;
       }
       if (userId !== card.owner.toString()) {
+        next(new ForbiddenError('You can\'t delete this card'));
         return;
       }
       Movie.findByIdAndRemove(movieId)
@@ -62,6 +70,10 @@ module.exports.deleteMovie = (req, res, next) => {
         .catch(next);
     })
     .catch((err) => {
-      console.log(err);
+      if (err.name === 'CastError') {
+        next(new BadRequestError('Incorrect data transmitted during card deletion'));
+        return;
+      }
+      next(err);
     });
 };

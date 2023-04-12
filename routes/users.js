@@ -12,4 +12,3 @@ router.get('/me', getCurrentUser);
 router.patch('/me', updateUserInfo);
 
 module.exports = router;
-
