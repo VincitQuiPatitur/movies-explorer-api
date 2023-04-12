@@ -59,7 +59,7 @@ module.exports.deleteMovie = (req, res, next) => {
         next(new NotFoundError('Card with specified id not found'));
         return;
       }
-      if (userId !== card.owner.toString()) {
+      if (userId !== movie.owner.toString()) {
         next(new ForbiddenError('You can\'t delete this card'));
         return;
       }

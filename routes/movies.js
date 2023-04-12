@@ -1,4 +1,5 @@
 const router = require('express').Router();
+const { validateMovieCreation, validateMovieById } = require('../middlewares/movieValidation')
 
 const {
   getSavedMovies,
@@ -12,7 +13,9 @@ router.get('/', getSavedMovies);
 // создаёт фильм с переданными в теле
 // country, director, duration, year, description, image
 // trailer, nameRU, nameEN и thumbnail, movieId
-router.post('/', createMovie);
+router.post('/', validateMovieCreation, createMovie);
 
 // удаляет сохранённый фильм по id
-router.delete('/:movieId', deleteMovie);
+router.delete('/:movieId', validateMovieById, deleteMovie);
+
+module.exports = router;
