@@ -1,7 +1,7 @@
 const jwt = require('jsonwebtoken');
 const UnauthorizedError = require('../errors/UnauthorizedError');
 
-const { SECRET_KEY_DEV } = require('../errors/error');
+const { SECRET_KEY_DEV } = require('../errors/errors');
 
 const handleAuthError = (res, next) => next(new UnauthorizedError('Authorisation required'));
 

@@ -7,7 +7,7 @@ const { errors } = require('celebrate');
 const router = require('./routes/index');
 const { errorHandler } = require('./middlewares/errorHandler');
 
-const { PORT = 3000 } = process.env;
+const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/moviesdb' } = process.env;
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const cors = require('./middlewares/cors');
 
@@ -15,9 +15,9 @@ mongoose.set('strictQuery', true);
 mongoose.connect(MONGO_URL);
 
 const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 1000, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
-}); // за 15мин мах 1000 запросов, потом выведется сообщение о превышении лимита
+  windowMs: 15 * 60 * 1000,
+  max: 1000,
+});
 
 const app = express();
 
@@ -28,11 +28,6 @@ app.use(cors);
 app.disable('x-powered-by');
 
 app.use(requestLogger);
-app.get('/crash-test', () => {
-  setTimeout(() => {
-    throw new Error('Сервер сейчас упадёт');
-  }, 0);
-}); // удалить после ревью
 app.use(router);
 app.use(errorLogger);
 app.use(errors());

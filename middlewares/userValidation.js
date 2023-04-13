@@ -1,5 +1,4 @@
 const { celebrate, Joi } = require('celebrate');
-const { idRegex } = require('../utils/constants');
 
 module.exports.validateUserCreation = celebrate({
   body: Joi.object().keys({

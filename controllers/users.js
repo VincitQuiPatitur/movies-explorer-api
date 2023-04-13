@@ -1,6 +1,6 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { SECRET_KEY_DEV } = require('../errors/error');
+const { SECRET_KEY_DEV } = require('../errors/errors');
 
 const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError'); // 400
@@ -43,7 +43,11 @@ module.exports.getUserById = (req, res, next) => {
   const { userId } = req.param;
   User.findById(userId)
     .then((user) => {
-      next(new NotFoundError('Invalid user id'));
+      if (!user) {
+        next(new NotFoundError('Invalid user id'));
+        return;
+      }
+      res.send(user);
     })
     .catch((err) => {
       if (err.name === 'CastError') {
@@ -58,7 +62,11 @@ module.exports.getCurrentUser = (req, res, next) => {
   const { _id: userId } = req.user;
   User.findById(userId)
     .then((user) => {
-      next(new UnauthorizedError('User is not authorized'));
+      if (!user) {
+        next(new UnauthorizedError('User is not authorized'));
+        return;
+      }
+      res.send(user);
     })
     .catch((err) => {
       next(err);

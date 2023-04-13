@@ -1,10 +1,10 @@
-const router = require('express').Router;
+const router = require('express').Router();
 const usersRouter = require('./users');
 const moviesRouter = require('./movies');
 const auth = require('../middlewares/auth');
+const { validateLogin, validateUserCreation } = require('../middlewares/userValidation');
 const { createUser, login } = require('../controllers/users');
 const NotFoundError = require('../errors/NotFoundError');
-const {validateLogin, validateUserCreation} = require("../middlewares/userValidation");
 
 // создаёт пользователя с переданными в теле email, password и name
 router.post('/signup', validateUserCreation, createUser);
