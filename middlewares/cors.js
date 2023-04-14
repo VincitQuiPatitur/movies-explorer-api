@@ -1,5 +1,6 @@
 const allowedCors = [
-
+  'http://movies.kostrova.nomoredomains.monster',
+  'https://movies.kostrova.nomoredomains.monster',
   'http://localhost:3000',
   'https://localhost:3000',
 ];
