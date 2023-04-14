@@ -42,7 +42,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Incorrect data transmitted during card creation'));
+        next(new BadRequestError('Incorrect data transmitted during movie creation'));
         return;
       }
       next(err);
@@ -56,11 +56,11 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
-        next(new NotFoundError('Card with specified id not found'));
+        next(new NotFoundError('Movie with specified id not found'));
         return;
       }
       if (userId !== movie.owner.toString()) {
-        next(new ForbiddenError('You can\'t delete this card'));
+        next(new ForbiddenError('You can\'t delete this movie'));
         return;
       }
       Movie.findByIdAndRemove(movieId)
@@ -71,7 +71,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Incorrect data transmitted during card deletion'));
+        next(new BadRequestError('Incorrect data transmitted during movie deletion'));
         return;
       }
       next(err);

@@ -5,7 +5,7 @@ module.exports.validateMovieCreation = celebrate({
   body: Joi.object().keys({
     country: Joi.string().required(),
     director: Joi.string().required(),
-    duration: Joi.string().required(),
+    duration: Joi.number().required(),
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().regex(linkRegex),
@@ -19,6 +19,6 @@ module.exports.validateMovieCreation = celebrate({
 
 module.exports.validateMovieById = celebrate({
   params: Joi.object().keys({
-    cardId: Joi.string().required().regex(idRegex),
+    movieId: Joi.string().required().regex(idRegex),
   }),
 });
