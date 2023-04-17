@@ -3,8 +3,7 @@ const isEmail = require('validator/lib/isEmail');
 const bcrypt = require('bcryptjs');
 
 const UnauthorizedError = require('../errors/UnauthorizedError'); // 401
-const { ERROR_WRONG_EMAIL_OR_PASSWORD, ERROR_EMAIL_FORMAT  } = require('../utils/constants');
-
+const { ERROR_WRONG_EMAIL_OR_PASSWORD, ERROR_EMAIL_FORMAT } = require('../utils/constants');
 
 const userSchema = new mongoose.Schema(
   {

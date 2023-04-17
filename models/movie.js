@@ -3,7 +3,7 @@ const isURL = require('validator/lib/isURL');
 
 const { ObjectId } = mongoose.Schema.Types;
 
-const{ ERROR_URL_FORMAT } = require('../utils/constants');
+const { ERROR_URL_FORMAT } = require('../utils/constants');
 
 const movieSchema = new mongoose.Schema(
   {

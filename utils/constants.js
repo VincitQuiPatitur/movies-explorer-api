@@ -3,7 +3,7 @@ const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = proc
 const linkRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
 const idRegex = /[a-f0-9]{24}/;
 
-const ERROR_MOVIES_NOT_FOUND = 'This user\'s films were not found'
+const ERROR_MOVIES_NOT_FOUND = 'This user\'s films were not found';
 const ERROR_INCORRECT_MOVIE_DATA_CREATION = 'Incorrect data transmitted during movie creation';
 const ERROR_INCORRECT_MOVIE_ID = 'Movie with specified id not found';
 const ERROR_INCORRECT_MOVIE_DATA_DELETION = 'Incorrect data transmitted during movie deletion';

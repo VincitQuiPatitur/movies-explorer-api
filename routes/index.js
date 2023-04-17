@@ -11,12 +11,15 @@ const { ERROR_NOT_FOUND } = require('../utils/constants');
 router.post('/signup', validateUserCreation, createUser);
 // проверяет переданные в теле почту и пароль и возвращает JWT
 router.post('/signin', validateLogin, login);
-
 router.use(auth);
-
 router.use('/users', usersRouter);
 router.use('/movies', moviesRouter);
-
+router.use('/signout', (req, res) => {
+  res.clearCookie('jwt', {
+    secure: true,
+    sameSite: 'None',
+  }).end();
+});
 router.use((req, res, next) => {
   next(new NotFoundError(ERROR_NOT_FOUND));
 });
