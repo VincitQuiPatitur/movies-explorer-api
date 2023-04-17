@@ -3,6 +3,8 @@ const isURL = require('validator/lib/isURL');
 
 const { ObjectId } = mongoose.Schema.Types;
 
+const{ ERROR_URL_FORMAT } = require('../utils/constants');
+
 const movieSchema = new mongoose.Schema(
   {
     country: {
@@ -30,7 +32,7 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: (v) => isURL(v),
-        message: 'Некорректный URL-формат',
+        message: ERROR_URL_FORMAT,
       },
     },
     trailerLink: {
@@ -38,7 +40,7 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: (v) => isURL(v),
-        message: 'Некорректный URL-формат',
+        message: ERROR_URL_FORMAT,
       },
     },
     thumbnail: {
@@ -46,7 +48,7 @@ const movieSchema = new mongoose.Schema(
       required: true,
       validate: {
         validator: (v) => isURL(v),
-        message: 'Некорректный URL-формат',
+        message: ERROR_URL_FORMAT,
       },
     },
     owner: {

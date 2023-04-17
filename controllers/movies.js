@@ -4,6 +4,7 @@ const ForbiddenError = require('../errors/ForbiddenError'); // 403
 const NotFoundError = require('../errors/NotFoundError'); // 404
 
 const {
+  ERROR_MOVIES_NOT_FOUND,
   ERROR_INCORRECT_MOVIE_DATA_CREATION,
   ERROR_INCORRECT_MOVIE_ID,
   ERROR_INCORRECT_MOVIE_DATA_DELETION,
@@ -11,8 +12,15 @@ const {
 } = require('../utils/constants');
 
 module.exports.getSavedMovies = (req, res, next) => {
-  Movie.find({})
-    .then((movies) => res.send(movies))
+  const owner = req.user._id;
+  Movie.find({ owner })
+    .then((movies) => {
+      if (!movies) {
+        next(new NotFoundError(ERROR_MOVIES_NOT_FOUND));
+        return;
+      }
+      res.send(movies);
+    })
     .catch(next);
 };
 

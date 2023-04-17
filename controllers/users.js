@@ -13,7 +13,6 @@ const {
   ERROR_INCORRECT_USER_DATA_CREATION,
   ERROR_USER_ID_NOT_EXIST,
   ERROR_USER_ID_NOT_FOUND,
-  ERROR_USER_AUTHORIZATION,
   ERROR_INCORRECT_DATA_USER_UPDATING,
 
 } = require('../utils/constants');
@@ -73,7 +72,7 @@ module.exports.getCurrentUser = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) {
-        next(new NotFoundError(ERROR_USER_AUTHORIZATION));
+        next(new NotFoundError(ERROR_USER_ID_NOT_EXIST));
         return;
       }
       res.send(user);
