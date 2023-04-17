@@ -96,8 +96,12 @@ module.exports.updateUserInfo = (req, res, next) => {
       res.send(user);
     })
     .catch((err) => {
+      if (err.code === 11000) {
+        next(new ConflictError(ERROR_USER_EMAIL_REGISTERED));
+        return;
+      }
       if (err.name === 'CastError' || err.name === 'ValidationError') {
-        next(BadRequestError(ERROR_INCORRECT_DATA_USER_UPDATING));
+        next(new BadRequestError(ERROR_INCORRECT_DATA_USER_UPDATING));
         return;
       }
       next(err);

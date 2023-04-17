@@ -1,3 +1,5 @@
+const { PORT = 3000, MONGO_URL = 'mongodb://127.0.0.1:27017/bitfilmsdb' } = process.env;
+
 const linkRegex = /^https?:\/\/(?:www\.)?[-a-zA-Z0-9@:%._+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b(?:[-a-zA-Z0-9()@:%_+.~#?&/=]*)$/;
 const idRegex = /[a-f0-9]{24}/;
 
@@ -13,6 +15,8 @@ const ERROR_USER_AUTHORIZATION = 'User is not authorized';
 const ERROR_INCORRECT_DATA_USER_UPDATING = 'Incorrect data transmitted when updating user information';
 
 module.exports = {
+  PORT,
+  MONGO_URL,
   linkRegex,
   idRegex,
   ERROR_INCORRECT_MOVIE_DATA_CREATION,
@@ -25,4 +29,4 @@ module.exports = {
   ERROR_USER_ID_NOT_FOUND,
   ERROR_USER_AUTHORIZATION,
   ERROR_INCORRECT_DATA_USER_UPDATING,
-}
+};
