@@ -1,5 +1,5 @@
 const { celebrate, Joi } = require('celebrate');
-const { linkRegex, idRegex } = require('../utils/constants');
+const { linkRegex } = require('../utils/constants');
 
 module.exports.validateMovieCreation = celebrate({
   body: Joi.object().keys({
@@ -9,16 +9,16 @@ module.exports.validateMovieCreation = celebrate({
     year: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required().regex(linkRegex),
-    trailer: Joi.string().required().regex(linkRegex),
+    trailerLink: Joi.string().required().regex(linkRegex),
     nameRU: Joi.string().required(),
     nameEN: Joi.string().required(),
     thumbnail: Joi.string().required().regex(linkRegex),
-    movieId: Joi.string().required().regex(idRegex),
+    movieId: Joi.number().required().unsafe(),
   }),
 });
 
 module.exports.validateMovieById = celebrate({
   params: Joi.object().keys({
-    movieId: Joi.string().required().regex(idRegex),
+    movieId: Joi.string().required().hex().length(24),
   }),
 });

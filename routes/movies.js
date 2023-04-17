@@ -12,7 +12,7 @@ router.get('/', getSavedMovies);
 
 // создаёт фильм с переданными в теле
 // country, director, duration, year, description, image
-// trailer, nameRU, nameEN и thumbnail, movieId
+// trailerLink, nameRU, nameEN и thumbnail, movieId
 router.post('/', validateMovieCreation, createMovie);
 
 // удаляет сохранённый фильм по id

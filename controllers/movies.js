@@ -3,6 +3,13 @@ const BadRequestError = require('../errors/BadRequestError'); // 400
 const ForbiddenError = require('../errors/ForbiddenError'); // 403
 const NotFoundError = require('../errors/NotFoundError'); // 404
 
+const {
+  ERROR_INCORRECT_MOVIE_DATA_CREATION,
+  ERROR_INCORRECT_MOVIE_ID,
+  ERROR_INCORRECT_MOVIE_DATA_DELETION,
+  ERROR_INCORRECT_MOVIE_DELETION,
+} = require('../utils/constants');
+
 module.exports.getSavedMovies = (req, res, next) => {
   Movie.find({})
     .then((movies) => res.send(movies))
@@ -18,7 +25,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -32,7 +39,7 @@ module.exports.createMovie = (req, res, next) => {
     year,
     description,
     image,
-    trailer,
+    trailerLink,
     nameRU,
     nameEN,
     thumbnail,
@@ -42,7 +49,7 @@ module.exports.createMovie = (req, res, next) => {
     .then((movie) => res.send(movie))
     .catch((err) => {
       if (err.name === 'ValidationError') {
-        next(new BadRequestError('Incorrect data transmitted during movie creation'));
+        next(new BadRequestError(ERROR_INCORRECT_MOVIE_DATA_CREATION));
         return;
       }
       next(err);
@@ -56,11 +63,11 @@ module.exports.deleteMovie = (req, res, next) => {
   Movie.findById(movieId)
     .then((movie) => {
       if (!movie) {
-        next(new NotFoundError('Movie with specified id not found'));
+        next(new NotFoundError(ERROR_INCORRECT_MOVIE_ID));
         return;
       }
       if (userId !== movie.owner.toString()) {
-        next(new ForbiddenError('You can\'t delete this movie'));
+        next(new ForbiddenError(ERROR_INCORRECT_MOVIE_DELETION));
         return;
       }
       Movie.findByIdAndRemove(movieId)
@@ -71,7 +78,7 @@ module.exports.deleteMovie = (req, res, next) => {
     })
     .catch((err) => {
       if (err.name === 'CastError') {
-        next(new BadRequestError('Incorrect data transmitted during movie deletion'));
+        next(new BadRequestError(ERROR_INCORRECT_MOVIE_DATA_DELETION));
         return;
       }
       next(err);
