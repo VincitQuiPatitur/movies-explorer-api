@@ -7,7 +7,6 @@ const User = require('../models/user');
 const BadRequestError = require('../errors/BadRequestError'); // 400
 const NotFoundError = require('../errors/NotFoundError'); // 404
 const ConflictError = require('../errors/ConflictError'); // 409
-const { OK } = require('../errors/errors');
 
 const {
   ERROR_USER_EMAIL_REGISTERED,
@@ -118,12 +117,7 @@ module.exports.login = (req, res, next) => {
         NODE_ENV === 'production' ? JWT_SECRET : 'SECRET_KEY_DEV',
         { expiresIn: '7d' },
       );
-      res.status(OK).cookie('jwt', token, {
-        maxAge: 3600000 * 24 * 7,
-        httpOnly: true,
-        secure: true,
-        sameSite: 'None',
-      }).end();
+      res.send({ token });
     })
     .catch((err) => {
       next(err);
